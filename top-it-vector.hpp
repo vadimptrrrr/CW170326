@@ -10,6 +10,7 @@ namespace petrovVadim
   {
     Vector();
     ~Vector();
+    bool isEmpty() const noexcept;
 
     private:
       T* data_;
@@ -18,9 +19,15 @@ namespace petrovVadim
 }
 
 template< class T >
+bool petrovVadim::Vector< T >::isEmpty() const noexcept
+{
+  return !size_;
+}
+
+template< class T >
 petrovVadim::Vector< T >::~Vector()
 {
-
+  delete data_;
 }
 
 template< class T >
@@ -28,8 +35,6 @@ petrovVadim::Vector< T >::Vector():
   data_(),
   size_(),
   cap_()
-{
-
-}
+{}
 
 #endif
