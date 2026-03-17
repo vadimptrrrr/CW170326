@@ -10,7 +10,19 @@ namespace petrovVadim
   {
     Vector();
     ~Vector();
+    Vector(const Vector&);
+    Vector(Vector&&);
+    Vector& operator=(const Vector&);
+    Vector& operator=(Vector&&);
+
     bool isEmpty() const noexcept;
+    size_t getSize() const noexcept;
+    size_t getCapacity() const noexcept;
+
+    void popBack();
+    void pushBack(const T& v);
+    void insert(size_t i, const T& v);
+    void erase(size_t i);
 
     private:
       T* data_;
@@ -35,6 +47,10 @@ petrovVadim::Vector< T >::Vector():
   data_(),
   size_(),
   cap_()
+{}
+
+template< class T >
+void petrovVadim::Vector< T >::pushBack(const T& v)
 {}
 
 #endif
