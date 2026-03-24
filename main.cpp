@@ -3,6 +3,7 @@
 
 bool testEmptyVector()
 {
+  // std::cout << __func__ << "\n";
   petrovVadim::Vector< int > v;
   return v.isEmpty();
 }
@@ -48,4 +49,6 @@ int main()
   }
 
   std::cout << "REESULT: " << pass << "\n";
+  // Плодсчёт пройденных и не пройденных
+  // Выоыодить непршедшие тесты
 }
