@@ -12,6 +12,7 @@ namespace petrovVadim
     ~Vector();
     Vector(const Vector&);
     Vector(Vector&&);
+    Vector< T >::Vector(size_t size, const T& init);
     Vector& operator=(const Vector&);
     Vector& operator=(Vector&&);
 
@@ -32,6 +33,7 @@ namespace petrovVadim
     private:
       T* data_;
       size_t size_, cap_;
+      explicit Vector(size_t size);
   };
   
   
@@ -158,21 +160,28 @@ namespace petrovVadim
 
   template< class T >
   Vector< T >::Vector(const Vector< T >& rhs):
-    data_(rhs.getSize() ? new T[rhs.getSize()] : nullptr),
-    size_(rhs.getSize()),
-    cap_(rhs.getSize())
+    Vector(rhs.getSize())
   {
     for (size_t i = 0; i < rhs.getSize(); ++i)
     {
-      try
-      {
-        data_[i] = rhs[i];
-      }
-      catch(...)
-      {
-        delete[] data_;
-        throw;
-      }
+      data_[i] = rhs[i];
+    }
+  }
+
+  template< class T >
+  Vector< T >::Vector(size_t size):
+    data_(size ? new T[size] : nullptr),
+    size_(size),
+    cap_(size)
+  {}
+
+  template< class T >
+  Vector< T >::Vector(size_t size, const T& init):
+    Vector(size)
+  {
+    for( size_t i = 0; i < size; ++i)
+    {
+      data_[i] = init;
     }
   }
 }

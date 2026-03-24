@@ -8,7 +8,7 @@ bool testCopyConstructorForEmpty()
   return v == vv;
 }
 
-bool testCopyconstructor()
+bool testCopyConstructorForNonEmpty()
 {
   petrovVadim::Vector< int > v;
   v.pushBack(1);
@@ -85,7 +85,7 @@ int main()
   test_t tests[] =
   {
     { "Test copy empty vector", testCopyConstructorForEmpty},
-    { "Test copy non empty vector", testCopyconstructor},
+    { "Test copy non empty vector", testCopyConstructorForNonEmpty},
     { "Test elment access", testElementAccess},
     { "Inbound access", testElementOutOfBoundAccess},
     { "Test Empty", testEmptyVector },
