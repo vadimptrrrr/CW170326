@@ -11,14 +11,16 @@ namespace petrovVadim
     Vector();
     ~Vector();
     Vector(const Vector&);
-    Vector(Vector&&);
-    Vector< T >::Vector(size_t size, const T& init);
+    Vector(Vector&&) noexcept;
+    Vector(size_t size, const T& init);
     Vector& operator=(const Vector&);
     Vector& operator=(Vector&&);
 
     bool isEmpty() const noexcept;
     size_t getSize() const noexcept;
     size_t getCapacity() const noexcept;
+    void swap(Vector< T >& rhs) noexcept;
+    void changeVectorInSomeWay();
 
     T& operator[](size_t id) noexcept;
     const T& operator[](size_t id) const noexcept;
@@ -183,6 +185,57 @@ namespace petrovVadim
     {
       data_[i] = init;
     }
+  }
+
+  template< class T >
+  Vector< T >& Vector< T >::operator=(const Vector< T >& rhs)
+  {
+    if (this == std::addressof(rhs))
+    {
+      return *this;
+    }
+    Vector< T > cpy(rhs);
+    swap(cpy);
+    return *this;
+  }
+
+  template< class T >
+  Vector< T >& Vector< T >::operator=(Vector< T >&& rhs)
+  {
+    Vector< T > cpy(std::move(rhs));
+    swap(cpy);
+    return *this;
+  }
+
+
+  template< class T >
+  Vector< T >::Vector(Vector< T >&& rhs) noexcept:
+    data_(rhs.data_),
+    size_(rhs.size_),
+    cap_(rhs.cap_)
+  {
+    rhs.data_ = nullptr;
+  }
+
+  template< class T >
+  void Vector< T >::swap(Vector< T >& rhs) noexcept
+  {
+    std::swap(data_, rhs.data_);
+    std::swap(size_, rhs.size_);
+    std::swap(cap_, rhs.cap_);
+  }
+
+  template< class T >
+  void Vector< T >::changeVectorInSomeWay()
+  {
+    Vector< T > cpy(*this);
+    cpy.pushBack(T());
+    cpy.pushBack(T());
+    cpy.pushBack(T());
+    cpy.pushBack(T());
+    cpy.pushBack(T());
+    cpy.pushBack(T());
+    swap(cpy);
   }
 }
 
