@@ -1,6 +1,23 @@
 #include <iostream>
 #include "top-it-vector.hpp"
 
+bool testCopyConstructorForEmpty()
+{
+  petrovVadim::Vector< int > v;
+  petrovVadim::Vector< int > vv = v;
+  return v == vv;
+}
+
+bool testCopyconstructor()
+{
+  petrovVadim::Vector< int > v;
+  v.pushBack(1);
+  v.pushBack(2);
+  v.pushBack(3);
+  petrovVadim::Vector< int > vv = v;
+  return v == vv;
+}
+
 bool testElementAccess()
 {
   petrovVadim::Vector< int > v;
@@ -67,6 +84,8 @@ int main()
   using test_t = std::pair< const char*, bool(*)() >;
   test_t tests[] =
   {
+    { "Test copy empty vector", testCopyConstructorForEmpty},
+    { "Test copy non empty vector", testCopyconstructor},
     { "Test elment access", testElementAccess},
     { "Inbound access", testElementOutOfBoundAccess},
     { "Test Empty", testEmptyVector },
