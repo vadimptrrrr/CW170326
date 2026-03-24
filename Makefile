@@ -1,6 +1,6 @@
 CXXFLAGS += -Wall -Wextra -std=c++14 -MMD
 
--include main.d
-
-main: main.cpp
+main: main.o
 	clang++ $^ -o $@
+
+-include main.d
