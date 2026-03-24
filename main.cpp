@@ -1,6 +1,40 @@
 #include <iostream>
 #include "top-it-vector.hpp"
 
+bool testElementAccess()
+{
+  petrovVadim::Vector< int > v;
+  v.pushBack(1);
+  try
+  {
+    int& val = v.at(0);
+    return val == 1;
+  }
+  catch(...)
+  {
+    return false;
+  }
+}
+
+bool testElementOutOfBoundAccess()
+{
+  petrovVadim::Vector< int > v;
+  try
+  {
+    v.at(0);
+    return false;
+  }
+  catch(const std::out_of_range &)
+  {
+    return true;
+  }
+  catch(...)
+  {
+    return false;
+  }
+  
+}
+
 bool testEmptyVector()
 {
   // std::cout << __func__ << "\n";
@@ -33,6 +67,8 @@ int main()
   using test_t = std::pair< const char*, bool(*)() >;
   test_t tests[] =
   {
+    { "Test elment access", testElementAccess},
+    { "Inbound access", testElementOutOfBoundAccess},
     { "Test Empty", testEmptyVector },
     { "Test add element", testPushBack },
     { "Test delete last element", testPopBack}
