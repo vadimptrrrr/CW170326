@@ -4,3 +4,6 @@ main: main.o
 	clang++ $^ -o $@
 
 -include main.d
+
+clean:
+	@$(RM) main.d main.o main
