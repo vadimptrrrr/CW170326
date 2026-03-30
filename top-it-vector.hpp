@@ -12,7 +12,7 @@ namespace petrovVadim
     ~Vector();
     Vector(const Vector&);
     Vector(Vector&&) noexcept;
-    Vector(size_t size, const T& init);
+    explicit Vector(size_t size, const T& init);
     Vector(std::initializer_list< T > il);
     Vector& operator=(const Vector&);
     Vector& operator=(Vector&&);
@@ -47,21 +47,6 @@ namespace petrovVadim
     for (auto it = il.begin(); it != il.end(); ++it)
     {
       data_[i++] = *it;
-    }
-  }
-
-  template< class T >
-  void insert(Vector< T >& v, size_t i, const T& val)
-  {
-    Vector< T > tmp(v);
-    for (size_t j = 0; j < i; ++j)
-    {
-      v.pushBack(tmp[j]);
-    }
-    v.pushBack(val);
-    for (size_t j = i; j < tmp.getSize(); ++j)
-    {
-      v.pushBack(tmp[j]);
     }
   }
 
@@ -233,7 +218,6 @@ namespace petrovVadim
     return *this;
   }
 
-
   template< class T >
   Vector< T >::Vector(Vector< T >&& rhs) noexcept:
     data_(rhs.data_),
@@ -262,6 +246,66 @@ namespace petrovVadim
     cpy.pushBack(T());
     cpy.pushBack(T());
     swap(cpy);
+  }
+
+  template< class T >
+  void Vector< T >::insert(size_t i, const T& val)
+  {
+    T* new_data = nullptr;
+    if (cap_ == 0)
+    {
+      new_data = new T[i + 1];
+      cap_ = i + 1;
+    }
+    else if (i >= cap_)
+    {
+      new_data = new T[cap_ + 10];
+      cap_ += 10;
+    }
+    else if (size_ + 1 >= cap_)
+    {
+      new_data = new T[cap_ * 2];
+      cap_ *= 2;
+    }
+    else
+    {
+      new_data = new T[cap_];
+    }
+
+    size_t j = 0;
+    try
+    {
+      if (i > size_)
+      {
+        for (; j < size_; ++j)
+        {
+          new_data[j] = data_[j];
+        }
+        new_data[i] = val;
+        size_ = i + 1;
+      }
+      else
+      {
+        for (; j < i; ++j)
+        {
+          new_data[j] = data_[j];
+        }
+        new_data[i] = val;
+        for (; j < size_; ++j)
+        {
+          new_data[j + 1] = data_[j];
+        }
+        ++size_;
+      }
+    }
+    catch(...)
+    {
+      delete[] new_data;
+      throw;
+    }
+
+    delete[] data_;
+    data_ = new_data;
   }
 }
 

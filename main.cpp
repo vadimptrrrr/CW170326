@@ -10,10 +10,11 @@ bool testInitializerList()
 bool testInsertOperation()
 {
   petrovVadim::Vector< int > v;
-  insert(v, 0, 1);
-  insert(v, 0, 2);
-  insert(v, 1, 3);
-  return v[0] == 2 && v[1] == 3 && v[2] == 1;
+  v.pushBack(1);
+  v.pushBack(2);
+  v.pushBack(3);
+  v.insert(1, 999);
+  return (v.getSize() == 4) && (v[1] == 999);
 }
 
 bool testCopyConstructorForEmpty()
@@ -115,7 +116,7 @@ int main()
 
   for (size_t i = 0; i < count; ++i)
   {
-    bool res = tests[i].second;
+    bool res = tests[i].second();
     std::cout << tests[i].first << ": " << res << "\n";
     pass = pass && res;
   }
