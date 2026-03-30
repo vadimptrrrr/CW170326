@@ -13,6 +13,7 @@ namespace petrovVadim
     Vector(const Vector&);
     Vector(Vector&&) noexcept;
     Vector(size_t size, const T& init);
+    Vector(std::initializer_list< T > il);
     Vector& operator=(const Vector&);
     Vector& operator=(Vector&&);
 
@@ -37,6 +38,17 @@ namespace petrovVadim
       size_t size_, cap_;
       explicit Vector(size_t size);
   };
+
+  template< class T >
+  Vector< T >::Vector(std::initializer_list< T > il):
+    Vector(il.size())
+  {
+    size_t i = 0;
+    for (auto it = il.begin(); it != il.end(); ++it)
+    {
+      data_[i++] = *it;
+    }
+  }
 
   template< class T >
   void insert(Vector< T >& v, size_t i, const T& val)

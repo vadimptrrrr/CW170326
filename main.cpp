@@ -1,6 +1,12 @@
 #include <iostream>
 #include "top-it-vector.hpp"
 
+bool testInitializerList()
+{
+  petrovVadim::Vector< int > v{1, 2};
+  return v.getSize() == 2 && (v[0] == 1) && (v[1] == 2);
+}
+
 bool testInsertOperation()
 {
   petrovVadim::Vector< int > v;
@@ -93,14 +99,15 @@ int main()
   using test_t = std::pair< const char*, bool(*)() >;
   test_t tests[] =
   {
+    { "Test initilizer", testInitializerList },
     { "Test insert element", testInsertOperation },
-    { "Test copy empty vector", testCopyConstructorForEmpty},
-    { "Test copy non empty vector", testCopyConstructorForNonEmpty},
-    { "Test elment access", testElementAccess},
-    { "Inbound access", testElementOutOfBoundAccess},
+    { "Test copy empty vector", testCopyConstructorForEmpty },
+    { "Test copy non empty vector", testCopyConstructorForNonEmpty },
+    { "Test elment access", testElementAccess },
+    { "Inbound access", testElementOutOfBoundAccess },
     { "Test Empty", testEmptyVector },
     { "Test add element", testPushBack },
-    { "Test delete last element", testPopBack}
+    { "Test delete last element", testPopBack }
   };
   const size_t count = sizeof(tests) / sizeof(test_t);
   std::cout << std::boolalpha;
