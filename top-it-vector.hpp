@@ -32,6 +32,7 @@ namespace petrovVadim
     void pushBack(const T& v);
 
     void insert(size_t i, const T& v);
+    void insert(size_t i, const Vector< T >& v);
     // void insert(VecIter< T > pos, const T& v);
     // void insert(VecIter< T > pos, size_t count, const T& v);
     // void insert(VecIter< T > pos, VecIter< T > start, VecIter< T > end);
@@ -273,6 +274,42 @@ namespace petrovVadim
       throw;
     }
 
+    delete[] data_;
+    data_ = new_data;
+  }
+
+  template< class T >
+  void Vector< T >::insert(size_t i, const Vector< T >& v)
+  {
+    if (!v.getSize())
+    {
+      return;
+    }
+
+    T* new_data = new T[cap_ + v.getCapacity()];
+    size_t j = 0;
+    try
+    {
+      for (; j < i; ++j)
+      {
+        new_data[j] = data_[j];
+      }
+      for (size_t k = 0; k < v.getSize(); ++k, ++j)
+      {
+        new_data[j] = v.data_[k];
+      }
+      for (; j < size_; ++j)
+      {
+        new_data[j + v.getSize()] = data_[j];
+      }
+      size_ += v.getSize();
+      cap_ += v.getCapacity();
+    }
+    catch(...)
+    {
+      delete[] new_data;
+      throw;
+    }
     delete[] data_;
     data_ = new_data;
   }

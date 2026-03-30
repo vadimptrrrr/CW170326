@@ -38,6 +38,21 @@ bool testInsertOperation()
   return (v.getSize() == 4) && (v[1] == 999);
 }
 
+bool testInsertVectorOperation()
+{
+  petrovVadim::Vector< int > v;
+  v.pushBack(1);
+  v.pushBack(2);
+  v.pushBack(3);
+
+  petrovVadim::Vector< int > vv;
+  vv.pushBack(999);
+  vv.pushBack(998);
+
+  v.insert(1, vv);
+  return (v.getSize() == 5) && (v[1] == 999) && (v[2] == 998);
+}
+
 bool testCopyConstructorForEmpty()
 {
   petrovVadim::Vector< int > v;
@@ -124,6 +139,7 @@ int main()
     { "Test erase element", testEraseOperation },
     { "Test erase range", testEraseRangeOperation },
     { "Test insert element", testInsertOperation },
+    { "Test insert vector", testInsertVectorOperation },
     { "Test copy empty vector", testCopyConstructorForEmpty },
     { "Test copy non empty vector", testCopyConstructorForNonEmpty },
     { "Test elment access", testElementAccess },
