@@ -7,6 +7,16 @@ bool testInitializerList()
   return v.getSize() == 2 && (v[0] == 1) && (v[1] == 2);
 }
 
+bool testEraseOperation()
+{
+  petrovVadim::Vector< int > v;
+  v.pushBack(1);
+  v.pushBack(2);
+  v.pushBack(3);
+  v.erase(1);
+  return (v.getSize() == 2) && (v[0] == 1) && (v[1] == 3);
+}
+
 bool testInsertOperation()
 {
   petrovVadim::Vector< int > v;
@@ -90,9 +100,8 @@ bool testPopBack()
   v.pushBack(1);
   v.pushBack(3);
   v.pushBack(2);
-  bool tmp = !v.isEmpty() && v.getCapacity() == 3;
   v.popBack();
-  return tmp && v.getSize() == 2 && v.getCapacity() == 2;
+  return (v.getSize() == 2) && (v[0] == 1) && (v[1] == 3);
 }
 
 int main()
@@ -101,6 +110,7 @@ int main()
   test_t tests[] =
   {
     { "Test initilizer", testInitializerList },
+    { "Test erase element", testEraseOperation },
     { "Test insert element", testInsertOperation },
     { "Test copy empty vector", testCopyConstructorForEmpty },
     { "Test copy non empty vector", testCopyConstructorForNonEmpty },
@@ -112,16 +122,25 @@ int main()
   };
   const size_t count = sizeof(tests) / sizeof(test_t);
   std::cout << std::boolalpha;
-  bool pass = true;
+
+  size_t success = 0;
+  size_t fail = 0;
 
   for (size_t i = 0; i < count; ++i)
   {
     bool res = tests[i].second();
-    std::cout << tests[i].first << ": " << res << "\n";
-    pass = pass && res;
+    if (res)
+    {
+      ++success;
+    }
+    else
+    {
+      ++fail;
+      std::cout << "FAILED: " << tests[i].first << "\n";
+    }
   }
 
-  std::cout << "REESULT: " << pass << "\n";
+  std::cout << "SUCCESS: " << success << "\nFAILED: " << fail << "\n";
   // Плодсчёт пройденных и не пройденных
   // Выоыодить непршедшие тесты
 }

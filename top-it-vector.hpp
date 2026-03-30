@@ -30,8 +30,17 @@ namespace petrovVadim
 
     void popBack();
     void pushBack(const T& v);
+
     void insert(size_t i, const T& v);
+    // void insert(VecIter< T > pos, const T& v);
+    // void insert(VecIter< T > pos, size_t count, const T& v);
+    // void insert(VecIter< T > pos, VecIter< T > start, VecIter< T > end);
+
     void erase(size_t i);
+    void erase(size_t start, size_t end);
+    // void erase(VecIter< T > pos);
+    // void erase(VecIter< T > pos, size_t s);
+    // void erase(VecIter< T > start, VecIter< T > end);
 
     private:
       T* data_;
@@ -84,53 +93,13 @@ namespace petrovVadim
   template< class T >
   void Vector< T >::pushBack(const T& v)
   {
-    T* newData = nullptr;
-    try
-    {
-      newData = new T[cap_ + 1];
-      for (size_t i = 0; i < size_; ++i)
-      {
-        newData[i] = data_[i];
-      }
-      newData[size_] = v;
-      delete[] data_;
-      data_ = newData;
-      ++cap_;
-      ++size_;
-    }
-    catch(...)
-    {
-      delete[] newData;
-      throw;
-    }
+    insert(size_, v);
   }
 
   template< class T >
   void Vector< T >::popBack()
   {
-      if (!size_)
-    {
-      return;
-    }
-
-    T* newData = nullptr;
-    try
-    {
-      newData = new T[cap_ - 1];
-      for (size_t i = 0; i < size_ - 1; ++i)
-      {
-        newData[i] = data_[i];
-      }
-      delete[] data_;
-      data_ = newData;
-      --cap_;
-      --size_;
-    }
-    catch(...)
-    {
-      delete[] newData;
-      throw;
-    }
+    erase(size_ - 1);
   }
 
   template< class T >
@@ -307,6 +276,67 @@ namespace petrovVadim
     delete[] data_;
     data_ = new_data;
   }
+
+  // template< class T >
+  // void Vector< T >::insert(VecIter< T > pos, const T& v)
+  // {}
+
+  // template< class T >
+  // void Vector< T >::insert(VecIter< T > pos, size_t count, const T& v)
+  // {}
+
+  // template< class T >
+  // void Vector< T >::insert(VecIter< T > pos, VecIter< T > start, VecIter< T > end)
+  // {}
+
+  template< class T >
+  void Vector< T >::erase(size_t i)
+  {
+    erase(i, i + 1);
+  }
+
+  template< class T >
+  void Vector< T >::erase(size_t start, size_t end)
+  {
+    if (!size_)
+    {
+      return;
+    }
+
+    T* new_data = new T[cap_];
+    size_t j = 0;
+    try
+    {
+      for (; j < start; ++j)
+      {
+        new_data[j] = data_[j];
+      }
+      for (size_t k = end; k < size_; ++k, ++j)
+      {
+        new_data[j] = data_[k];
+      }
+      size_ -= (end - start);
+    }
+    catch(...)
+    {
+      delete[] new_data;
+      throw;
+    }
+    delete[] data_;
+    data_ = new_data;
+  }
+
+  // template< class T >
+  // void Vector< T >::erase(VecIter< T > pos)
+  // {}
+
+  // template< class T >
+  // void Vector< T >::erase(VecIter< T > pos, size_t s)
+  // {}
+
+  // template< class T >
+  // void Vector< T >::erase(VecIter< T > start, VecIter< T > end)
+  // {}
 }
 
 #endif
