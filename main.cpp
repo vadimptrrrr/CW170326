@@ -1,6 +1,15 @@
 #include <iostream>
 #include "top-it-vector.hpp"
 
+bool testInsertOperation()
+{
+  petrovVadim::Vector< int > v;
+  insert(v, 0, 1);
+  insert(v, 0, 2);
+  insert(v, 1, 3);
+  return v[0] == 2 && v[1] == 3 && v[2] == 1;
+}
+
 bool testCopyConstructorForEmpty()
 {
   petrovVadim::Vector< int > v;
@@ -84,6 +93,7 @@ int main()
   using test_t = std::pair< const char*, bool(*)() >;
   test_t tests[] =
   {
+    { "Test insert element", testInsertOperation },
     { "Test copy empty vector", testCopyConstructorForEmpty},
     { "Test copy non empty vector", testCopyConstructorForNonEmpty},
     { "Test elment access", testElementAccess},

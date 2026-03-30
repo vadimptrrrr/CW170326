@@ -37,39 +37,53 @@ namespace petrovVadim
       size_t size_, cap_;
       explicit Vector(size_t size);
   };
-  
-  
+
+  template< class T >
+  void insert(Vector< T >& v, size_t i, const T& val)
+  {
+    Vector< T > tmp(v);
+    for (size_t j = 0; j < i; ++j)
+    {
+      v.pushBack(tmp[j]);
+    }
+    v.pushBack(val);
+    for (size_t j = i; j < tmp.getSize(); ++j)
+    {
+      v.pushBack(tmp[j]);
+    }
+  }
+
   template< class T >
   bool Vector< T >::isEmpty() const noexcept
   {
     return !size_;
   }
-  
+
   template< class T >
   Vector< T >::~Vector()
   {
     delete data_;
   }
-  
+
   template< class T >
   Vector< T >::Vector():
     data_(),
     size_(),
     cap_()
   {}
-  
+
   template< class T >
   size_t Vector< T >::getSize() const noexcept
   {
     return size_;
   }
-  
+
   template< class T >
   size_t Vector< T >::getCapacity() const noexcept
   {
     return cap_;
   }
-  
+
   template< class T >
   void Vector< T >::pushBack(const T& v)
   {
@@ -93,7 +107,7 @@ namespace petrovVadim
       throw;
     }
   }
-  
+
   template< class T >
   void Vector< T >::popBack()
   {
@@ -101,7 +115,7 @@ namespace petrovVadim
     {
       return;
     }
-  
+
     T* newData = nullptr;
     try
     {
