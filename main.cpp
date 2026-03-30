@@ -17,6 +17,17 @@ bool testEraseOperation()
   return (v.getSize() == 2) && (v[0] == 1) && (v[1] == 3);
 }
 
+bool testEraseRangeOperation()
+{
+  petrovVadim::Vector< int > v;
+  v.pushBack(1);
+  v.pushBack(2);
+  v.pushBack(3);
+  v.pushBack(4);
+  v.erase(1, 3);
+  return (v.getSize() == 2) && (v[0] == 1) && (v[1] == 4);
+}
+
 bool testInsertOperation()
 {
   petrovVadim::Vector< int > v;
@@ -111,6 +122,7 @@ int main()
   {
     { "Test initilizer", testInitializerList },
     { "Test erase element", testEraseOperation },
+    { "Test erase range", testEraseRangeOperation },
     { "Test insert element", testInsertOperation },
     { "Test copy empty vector", testCopyConstructorForEmpty },
     { "Test copy non empty vector", testCopyConstructorForNonEmpty },
